@@ -1,6 +1,6 @@
-# Crypto currency fund
+# Cryptocurrency fund
 
-Set of utilities that'll help you to setup and manage your own crypto-investment fund. You can then
+Set of utilities that'll help you to setup and manage your own crypto fund. You can then
 expose this to your family and close friends. Utilities you find here will help you:
 
 - keeping track of new businesses (i.e. who owns what)
@@ -23,8 +23,8 @@ money you won't be able to sleep properly.
 
 ## Fond setup
 
-Alice and Bob are crypto fans, who spend a lot of time researching crypto-space and ocassionaly buy
-some new hot stuff and ocassionally cash out a little. Since they want to bring their families and
+Alice and Bob are crypto fans, who spend a lot of time researching crypto-space and occasionally buy
+some new hot stuff and occasionally cash out a little. Since they want to bring their families and
 close friends to the business, they setup their own fund which they name ABCT (Alice and Bob's
 Crypto Trust) (Bob wanted to name it 'Shitcoin Buffet', but Alice refused). To do this, they
 allocate some assets to their portfolio:
@@ -36,7 +36,7 @@ allocate some assets to their portfolio:
 ```
 
 This portfolio should be stored on some exchange or hardware wallet - this repo an accounting tool,
-not a wallet. such portfolio is worth (as of 2018-01-01) approximately 21637 EUR. They decide, that
+not a wallet. Such portfolio is worth (as of 2018-01-01) approximately 21637 EUR. They decide, that
 they emit 30000 shares, each of which is worth approx. 0.721 EUR. This can be done by putting a
 simple trade to `data.py`:
 
@@ -56,7 +56,7 @@ inputting such data as a Python structure has several advantages for A&B:
 - system keeps it's history because of Git (thank you, Torwalds!)
 - data are validated. If Alice types XLN instead of XLM she sees a nice error
 - if one day Alice decides that whe wants some additional feature, she can process such data MUCH
-  faster compared to (say) excell.
+  faster compared to (say) excel.
 
 Once the fund is set up, Alice can run:
 
@@ -64,7 +64,7 @@ Once the fund is set up, Alice can run:
 python composition_summary.py
 ```
 
-to get the general fund stats:
+To get the general fund stats:
 
 ```
 Ticker      Quantity    Price [€]    Value [€]    Percent
@@ -143,7 +143,7 @@ Finally, Alice and Bob should:
 Note that if Cecil would send EUR instead of ETH, the process would look pretty much the same. From the perspective of the
 code, c.EUR is currency just like any other.
 
-## Cecil want's to exit the fund
+## Cecil wants to exit the fund
 
 After deciding how much and what currency does he want to withdraw, it's very much the same as
 investing - only with 'remove_shares', and 'remove' verbs in the trades log.
