@@ -36,8 +36,6 @@ def get_price(ticker, date=None):
         except ApiError:
             time.sleep(i * 3) # sleep up to 30 seconds before attempting the next request
             pass
-        except Exception as e:
-            raise e
     raise ApiError()
 
 def get_historical_price(ticker, date):
