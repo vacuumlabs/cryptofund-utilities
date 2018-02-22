@@ -1,27 +1,26 @@
-# Cryptocurrency fund
+# Do your own crypto-investment-fund
 
-Set of utilities that'll help you to setup and manage your own crypto fund. You can then
-expose this to your family and close friends. Utilities you find here will help you:
+With all the world becoming obsessed by cryptocurrencies, we've noticed that quite often people
+invest on behalf of others - their families and close friends. For such purpose, one clearly needs a
+good accounting tools - Excel is far too error prone to do this right.
 
-- keeping track of new businesses (i.e. who owns what)
-- monitoring your portfolio
+The aim of this project is to give you set of accounting utilities you can use to run your own mini
+cryptocurrency investment fund. We'll help you:
+
+- keeping track of who owns what
+- monitoring your portfolio (share price over time)
 - issuing / destroying shares of the fund
 - auditing (do we really own what we claim we do?)
 
-## Can I just use excel / spreadsheets / airtable / whatever instead?
-
-Theoretically, you can. Practically, you're going to produce a lot of copy-paste mess, accidental cell
-rewritings, without an easy way how to audit what you just did. If you do this with other people's
-money you won't be able to sleep properly.
-
-# How does it work in a nutshell
+This project is not:
+- new coin
+- wallet, where you can store your coins
+- trading software, that would trade on your behalf
 
 ## Installation
-- clone the repo
-- get python3. All `python` commands means python3.
-- (sudo or use virtualenv) `pip install requests slackclient`
+[Quick guide](https://github.com/vacuumlabs/cryptofund-utilities/blob/master/install.md)
 
-## Fond setup
+## Getting started
 
 Alice and Bob are crypto fans, who spend a lot of time researching crypto-space and occasionally buy
 some new hot stuff and occasionally cash out a little. Since they want to bring their families and
@@ -35,10 +34,20 @@ allocate some assets to their portfolio:
 10000 XLM
 ```
 
-This portfolio should be stored on some exchange or hardware wallet - this repo an accounting tool,
-not a wallet. Such portfolio is worth (as of 2018-01-01) approximately 21637 EUR. They decide, that
-they emit 30000 shares, each of which is worth approx. 0.721 EUR. This can be done by putting a
-simple trade to `data.py`:
+This portfolio should be stored on some exchange or hardware wallet - this repo is an accounting tool,
+not a wallet. Such portfolio is worth (as of 2018-01-01) approximately 21637 EUR. A&B decide, that
+they emit 30,000 shares, each of which is worth approx. 0.721 EUR.
+
+Shares are key concept for the fund: at any given time, one share represents one nth of the current
+portfolio value (in this case, one share represents 1/30,000 of the portfolio value). If the
+portfolio cryptocurrencies do well and they get more valuable, the share price rises (and vice
+versa). If (new) people make new investments, the portfolio value also increases - however in such a
+case, also new shares must be emitted for these investments. New investment should not change share
+price - we'll get to this later. Note that the number of shares A&B emitted at the beginning is
+arbitrary. They could for example emit 100,000 shares each worth approx 0.216 EUR or 1,000,000
+shares each worth 0.0216 EUR.
+
+The fund initial state is put to `data.py`:
 
 ```
 trades = [
@@ -51,7 +60,7 @@ trades = [
 ]
 ```
 
-inputting such data as a Python structure has several advantages for A&B:
+Putting such data as a Python structure has several advantages for A&B:
 - they can do code-review on (say) Github
 - system keeps it's history because of Git (thank you, Torwalds!)
 - data are validated. If Alice types XLN instead of XLM she sees a nice error
@@ -111,9 +120,21 @@ share-price updates. It corrupts one's mind.)
 ## Cecil wants to enter the fund
 
 With such a great portfolio, who wouldn't! Cecil decides he'll contribute his 10 ETH (we discuss EUR
-contributions later). He send it to publicly announced fund's public ETH address. Week later, Alice notices,
-there was a new trade, she should process. She uses 'calculate_shares.py`, where she puts all
-relevant info about Cecil's transaction. She's given exactly the output she needs:
+contributions later) - Cecil simply sends the ETH to the publicly announced fund's ETH address. In
+the very moment, he enters the fund buying shares at the current share price. This is done so,
+although actual accunting may happen later in time; we'll get to that later.
+
+At the point of Cecil's investment, we have to emit new shares that'll get into his possesion. Note
+that we want Alice & Bob to be exactly as rich after Cecil's trade as before it. This means, we
+don't want to change their number of shares, neither we want to change the share price. Since by
+Cecil's contribution portfolio is 10 ETH bigger, we have to emit new shares - so that the final
+share price stays the same. The new shares which are being emited are exactly those shares that'll
+Cecil own. All that Alice have to do is to calculate the exact number of shares they should emit and
+assign them to him.
+
+Since scripts can work with historical prices, it's easy for Alice to do this weeks later. She uses
+'calculate_shares.py`, where she puts all relevant info about Cecil's transaction. She's given
+exactly the output she needs:
 
 ```
 Date:        2018-01-07
@@ -123,7 +144,7 @@ Share price: 0.945
 Shares:      9293
 ```
 
-This means, that by this transaction, fund is 10 ETH richer and in the return, it must emit 10690 shares for Cecil. She
+This means, that by this transaction, fund is 10 ETH richer and in the return, it must emit 9293 shares for Cecil. She
 can input this data to `data.py`:
 
 ```
@@ -132,9 +153,8 @@ can input this data to `data.py`:
         add, c.ETH, 10),
 ```
 
-Note the date - Cecil buys shares of the fund instantly when he sends the money, at the current
-prices. The mere fact, that the actual accounting happens later, does not change the numbers of the
-trade. This is great, because Cecil won't be nervous about when A&B do the accounting.
+Note the date - although the accounting may happen later, all Alice has to do is to use the correct
+(actual) day of the trade. This is great, because Cecil won't be (so) nervous about when A&B do the accounting.
 
 Finally, Alice and Bob should:
 - tell Cecil he'd bought X shares
