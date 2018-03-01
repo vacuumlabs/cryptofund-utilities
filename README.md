@@ -1,10 +1,10 @@
 # Do your own crypto-investment-fund
 
 With all the world becoming obsessed by cryptocurrencies, we've noticed that quite often people
-invest on behalf of others - their families and close friends. For such purpose, one clearly needs a
+invest on behalf of others - their families and close friends. For such purpose, one clearly needs
 good accounting tools - Excel is far too error prone to do this right.
 
-The aim of this project is to give you set of accounting utilities you can use to run your own mini
+The aim of this project is to give you a set of accounting utilities you can use to run your own mini
 cryptocurrency investment fund. We'll help you:
 
 - keeping track of who owns what
@@ -38,7 +38,7 @@ This portfolio should be stored on some exchange or hardware wallet - this repo 
 not a wallet. Such portfolio is worth (as of 2018-01-01) approximately 21637 EUR. A&B decide, that
 they emit 30,000 shares, each of which is worth approx. 0.721 EUR.
 
-Shares are key concept for the fund: at any given time, one share represents one nth of the current
+Shares are the key concept for the fund: at any given time, one share represents one n-th of the current
 portfolio value (in this case, one share represents 1/30,000 of the portfolio value). If the
 portfolio cryptocurrencies do well and they get more valuable, the share price rises (and vice
 versa). If (new) people make new investments, the portfolio value also increases - however in such a
@@ -62,9 +62,9 @@ trades = [
 
 Putting such data as a Python structure has several advantages for A&B:
 - they can do code-review on (say) Github
-- system keeps it's history because of Git (thank you, Torwalds!)
+- system keeps its history because of Git (thank you, Torvalds!)
 - data are validated. If Alice types XLN instead of XLM she sees a nice error
-- if one day Alice decides that whe wants some additional feature, she can process such data MUCH
+- if one day Alice decides that she wants some additional feature, she can process such data MUCH
   faster compared to (say) excel.
 
 Once the fund is set up, Alice can run:
@@ -92,7 +92,7 @@ and
 python owners_report.py
 ```
 
-To get information about how wealthy are individual investors:
+To get information about how wealthy individual investors are:
 ```
 Owner      ABCT [pc]    ABCT [€]
 -------  -----------  ----------
@@ -100,14 +100,14 @@ Alice          15000     10818.7
 Bob            15000     10818.7
 ```
 
-Note: such commands produces reports to the actual date. If you want anytime else:
+Note: these commands print reports for the current date. For any other date, you can include it as a parameter:
 
 ```
 python owner_report.py --date=2018-01-01
 python composition_summary.py --date=2018-01-01
 ```
 
-Finally, Alice and Bob can send all investors daily report:
+Finally, Alice and Bob can send a daily report to all investors:
 
 ```
 python inform_slack.py
@@ -121,19 +121,19 @@ share-price updates. It corrupts one's mind.)
 
 With such a great portfolio, who wouldn't! Cecil decides he'll contribute his 10 ETH (we discuss EUR
 contributions later) - Cecil simply sends the ETH to the publicly announced fund's ETH address. In
-the very moment, he enters the fund buying shares at the current share price. This is done so,
-although actual accunting may happen later in time; we'll get to that later.
+that very moment, he enters the fund buying shares at the current share price. This is done so,
+although actual accounting may happen later in time; we'll get to that later.
 
-At the point of Cecil's investment, we have to emit new shares that'll get into his possesion. Note
+At the point of Cecil's investment, we have to emit new shares that'll get into his possession. Note
 that we want Alice & Bob to be exactly as rich after Cecil's trade as before it. This means, we
 don't want to change their number of shares, neither we want to change the share price. Since by
 Cecil's contribution portfolio is 10 ETH bigger, we have to emit new shares - so that the final
-share price stays the same. The new shares which are being emited are exactly those shares that'll
-Cecil own. All that Alice have to do is to calculate the exact number of shares they should emit and
-assign them to him.
+share price stays the same. The new shares which are being emitted are exactly those shares that'll
+Cecil own. All that Alice & Bob have to do is to calculate the exact number of shares they should emit and
+assign to him.
 
 Since scripts can work with historical prices, it's easy for Alice to do this weeks later. She uses
-'calculate_shares.py`, where she puts all relevant info about Cecil's transaction. She's given
+`calculate_shares.py`, where she puts all relevant info about Cecil's transaction. She's given
 exactly the output she needs:
 
 ```
@@ -158,7 +158,7 @@ Note the date - although the accounting may happen later, all Alice has to do is
 
 Finally, Alice and Bob should:
 - tell Cecil he'd bought X shares
-- Cecil unballanced the portfolio a little. Maybe A&B should rebalance a little (i.e. sell some ETH for BTC and XLM).
+- Cecil unbalanced the portfolio a little. Maybe A&B should rebalance a little (i.e. sell some ETH for BTC and XLM).
 
 Note that if Cecil would send EUR instead of ETH, the process would look pretty much the same. From the perspective of the
 code, c.EUR is currency just like any other.
@@ -170,8 +170,8 @@ investing - only with 'remove_shares', and 'remove' verbs in the trades log.
 
 ## Alice wants to rebalance the portfolio
 
-Say, she want buy ADA for 0.5 BTC. This basically means, that fund is 0.5 BTC poorer and 8775 ADA
-(that's what she got at her favorite exchange) richer. She simply adds a new trade:
+Say, she wants to buy ADA for 0.5 BTC. This basically means, that fund is 0.5 BTC poorer and 8775 ADA
+(that's what she's got at her favorite exchange) richer. She simply adds a new trade:
 
 ```
     ('2018-01-14', f.ABCT,
@@ -201,7 +201,7 @@ it's slippery slope and it's hard to be 100% objective.
 
 To solve such issues, there's a simple rule: before doing the trade, run script once, and get all
 the data you need. Even if the trade itself takes some time and prices change, don't re-run the
-script. This way, the trades won't be accounted as precise as possible, but the whole system will be
+script. This way, the trades won't be accounted as precisely as possible, but the whole system will be
 fair. System, which adds a bit of (fair) randomness to each trade is still quite a good system.
 
 ## Fees
@@ -214,17 +214,17 @@ individual investors in a fair manner.
 
 Some general crypto-investing advice you may find useful:
 
-- Read the white paper. If it looks like a powerpoint presentation, full of fluffy promisses and no
+- Read the white paper. If it looks like a powerpoint presentation, full of fluffy promises and no
   real solutions, don't buy.
 - Be sure you understand the core concepts and a value proposition.
 - Are the promises achievable? If someone promises zero fees, no inflation, instant transaction,
-  100% anonymity, smart contracts at the same moment, there it's either superhuge Satoshi-prize
+  100% anonymity, smart contracts at the same moment, then it's either superhuge Satoshi-prize
   worth concept, or pure scam. The latter is much more probable.
 - Does this bring anything new? Or is it just coloured Bitcoin, Ethereum, whatever?
-- Are you buying a promise or it already works?
+- Are you buying a promise or does it already work?
 - Check out the major developers' history and contributions. For many currencies, the currency
   itself is the first real project of their developers (I was shocked, how many coins fall into this
-  category). Advertising such people as 'skilled developers with a lots of experience' is laughable.
+  category). Advertising such people as 'skilled developers with lots of experience' is laughable.
   Don't buy.
 - Don't buy coins/tokens designed for a specific industry. Shared workspaces, car renters, music producers,
   cloud services, bananas, IoT, sewer cleaners, IT freelancers, artist and many many other
