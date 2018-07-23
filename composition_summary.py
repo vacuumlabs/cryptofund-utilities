@@ -19,7 +19,7 @@ def composition_summary(fund, date=None):
         rows.append((
             Cell('ticker', 'Ticker', ticker),
             Cell('quantity', 'Quantity', amounts[ticker]),
-            Cell('price', 'Price [€]', get_price(ticker)),
+            Cell('price', 'Price [€]', get_price(ticker, date)),
             Cell('eur_value', 'Value [€]', amounts_eur[ticker]),
             Cell('percent', 'Percent', amounts_eur[ticker] / total_eur * 100), # percentage of total fund value
         ))

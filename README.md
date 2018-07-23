@@ -76,14 +76,15 @@ python composition_summary.py
 To get the general fund stats:
 
 ```
+Fund: ABCT
 Ticker      Quantity    Price [€]    Value [€]    Percent
 --------  ----------  -----------  -----------  ---------
-BTC                1  8858.59          11424      52.7974
-ETH               10   838.006          6381.4    29.4925
-XLM            10000     0.501615       3832      17.7101
+BTC                1   11424           11424      52.8829
+ETH               10     638.14         6381.4    29.5403
+XLM            10000       0.3797       3797      17.5768
 
-Total value [€]: 21637.360
-Price per share [€]: 0.721
+Total value [€]: 21602.360
+Price per share [€]: 0.720
 ```
 
 and
