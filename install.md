@@ -2,6 +2,8 @@
 - clone the repo
 - get python3. All `python` commands means python3.
 - optional - create and activate [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
+- (sudo) `pip install requests`
+- [get a CoinMarketCap API KEY](https://coinmarketcap.com/api/documentation/v1/#section/Quick-Start-Guide) and hardcode it in `currency_info.py`
 - install dependencies using
     - `pip install -r requirements.txt`
     - OR manually (sudo):

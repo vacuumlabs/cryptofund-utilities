@@ -1,8 +1,14 @@
-import requests
-from datetime import datetime, timezone
-import dateutil.parser
-from memo import memo
 import time
+from datetime import datetime, timezone
+
+import dateutil.parser
+import requests
+
+from memo import memo
+
+TARGET_CURRENCY = 'EUR'
+COINMARKETCAP_API_KEY = 'INSERT YOUR COINMARKETCAP API KEY HERE'
+
 
 class ApiError(Exception):
     pass
@@ -10,12 +16,13 @@ class ApiError(Exception):
 @memo
 def currency_info():
     data = requests.get(
-        'https://api.coinmarketcap.com/v1/ticker/',
-        params={'convert': 'EUR', 'limit': 1000}
+        'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+        params={'convert': TARGET_CURRENCY, 'limit': 1000},
+        headers={'X-CMC_PRO_API_KEY': COINMARKETCAP_API_KEY},
     ).json()
 
     result = {}
-    for d in data:
+    for d in data['data']:
         sym = d['symbol']
         # data from coinmarketcap seems to be ordered by capitalization descending - we handle tickers by
         # ignoring shitcoins with lower capitalization
@@ -45,7 +52,7 @@ def get_historical_price(ticker, date):
     url = 'https://min-api.cryptocompare.com/data/pricehistorical'
     params = {
         'fsym': ticker,
-        'tsyms': 'EUR',
+        'tsyms': TARGET_CURRENCY,
         'ts': int(date.replace(tzinfo=timezone.utc).timestamp()),
         # the total volume to / the total volume from
         'calculationType': 'VolFVolT',
@@ -54,24 +61,28 @@ def get_historical_price(ticker, date):
     response = requests.get(url, params=params).json()
 
     try:
-        return response[ticker]['EUR']
+        return response[ticker][TARGET_CURRENCY]
     except KeyError:
         raise ApiError()
 
 @memo
 def get_current_price_cryptocompare(ticker):
     url = 'https://min-api.cryptocompare.com/data/price'
-    params = {'fsym': ticker, 'tsyms': 'EUR'}
+    params = {'fsym': ticker, 'tsyms': TARGET_CURRENCY}
     response = requests.get(url, params=params).json()
 
     try:
-        return response['EUR']
+        return response[TARGET_CURRENCY]
     except KeyError:
         print('WARNING: Could not get price for ticker %s, returning 0' % ticker)
         raise ApiError()
 
 def get_current_price_coinmarketcap(ticker):
-    return float(currency_info()[ticker]['price_eur'])
+    try:
+        return float(currency_info()[ticker]['quote'][TARGET_CURRENCY]['price'])
+    except KeyError:
+        raise ApiError()
+
 
 if __name__ == '__main__':
     for ticker in ['ETH', 'BTC']:
